@@ -13,3 +13,14 @@ let showWeekly = () => {
   return weekly.join('')
 }
 exports.showWeekly = showWeekly
+
+let calArray = () => {
+  let date = new Date()
+  date.setMonth(date.getMonth() + 1)
+  date.setDate(0)
+  const calArray = Array.from(new Array(date.getDate())).map((v, i) => i + 1)
+  return calArray
+}
+console.log(calArray())
+
+exports.calArray = calArray

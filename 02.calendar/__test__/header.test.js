@@ -13,5 +13,5 @@ test('current year and month', () => {
   date.setMonth(date.getMonth() + 1)
   date.setDate(0)
   const calArray = Array.from(new Array(date.getDate())).map((v, i) => i + 1)
-  expect(testCalender.calArray).toBe(calArray)
+  expect(testCalender.calArray()).toEqual(calArray)
 })
