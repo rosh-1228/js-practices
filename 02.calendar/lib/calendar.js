@@ -23,14 +23,11 @@ const createCalendarDays = date => {
   const days = spaces.concat(dayNumbers)
   const calendarDays = days.map(i => ('  ' + i).slice(-2))
 
-  const weeks = [
-    calendarDays.slice(0, 7),
-    calendarDays.slice(7, 14),
-    calendarDays.slice(14, 21),
-    calendarDays.slice(21, 28),
-    calendarDays.slice(28, 35),
-    calendarDays.slice(35, 42)
-  ]
+  const weeks = []
+  for (let firstDay = 0; firstDay < calendarDays.length; firstDay += 7) {
+    const week = calendarDays.slice(firstDay, firstDay + 7)
+    weeks.push(week)
+  }
   return weeks
 }
 
