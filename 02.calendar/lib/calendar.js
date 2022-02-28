@@ -16,11 +16,10 @@ const loadYearMonth = (month = 0, year = 0) => {
 }
 
 const createCalendarDays = date => {
-  date.setDate(1)
-  const spaces = new Array(date.getDay()).fill('  ')
-  date.setMonth(date.getMonth() + 1)
-  date.setDate(0)
-  const dayNumbers = [...Array(date.getDate()).keys()].map(i => ++i)
+  const firstDate = new Date(date.getFullYear(), date.getMonth(), 1)
+  const spaces = new Array(firstDate.getDay()).fill('  ')
+  const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  const dayNumbers = [...Array(lastDate.getDate()).keys()].map(i => ++i)
   const days = spaces.concat(dayNumbers)
   const calendarDays = days.map(i => ('  ' + i).slice(-2))
 
