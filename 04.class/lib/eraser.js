@@ -47,7 +47,6 @@ class Eraser {
             reject(err)
           } else {
             const contents = rows.map(row => {
-              console.log(row)
               return { name: row.content.split(/\r\n|\r|\n/)[0], value: row.id }
             })
             resolve(contents)
