@@ -3,7 +3,6 @@ const assert = chai.assert
 const path = require('path')
 const Memo = require(path.join(__dirname, '..', 'lib', 'memo'))
 const Pencil = require(path.join(__dirname, '..', 'lib', 'pencil'))
-require('mocha-sinon')
 
 const sqlite3 = require('sqlite3').verbose()
 const fs = require('fs')
