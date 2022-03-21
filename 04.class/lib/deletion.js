@@ -1,6 +1,6 @@
 const { Select } = require('enquirer')
 
-class Eraser {
+class Deletion {
   delete (id) {
     const sqlite3 = require('sqlite3').verbose()
     const path = require('path')
@@ -57,4 +57,4 @@ class Eraser {
   }
 }
 
-module.exports = Eraser
+module.exports = Deletion

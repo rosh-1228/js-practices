@@ -1,4 +1,4 @@
-class Pencil {
+class Addition {
   constructor (words) {
     this.words = words
   }
@@ -17,4 +17,4 @@ class Pencil {
   }
 }
 
-module.exports = Pencil
+module.exports = Addition

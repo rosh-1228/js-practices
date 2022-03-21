@@ -1,88 +1,44 @@
 #!/usr/bin/env node
 
-const { Select } = require('enquirer')
-
-const main = () => {
-  const Pencil = require('./pencil')
-  const Eraser = require('./eraser')
-  const argv = require('minimist')(process.argv.slice(2))
-
-  const memo = new Memo()
-
-  if ('l' in argv) {
-    memo.show()
-  } else if ('r' in argv) {
-    memo.select()
-  } else if ('d' in argv) {
-    const eraser = new Eraser()
-    eraser.select()
-  } else {
-    const lines = []
-    const reader = require('readline').createInterface({
-      input: process.stdin
-    })
-    reader.on('line', function (line) {
-      lines.push(line)
-    })
-    process.stdin.on('end', function () {
-      const pencil = new Pencil(lines.join('\n'))
-      pencil.write()
-    })
-  }
-}
+const View = require('./view')
+const Addition = require('./addition')
+const Deletion = require('./deletion')
+const argv = require('minimist')(process.argv.slice(2))
 
 class Memo {
-  select () {
-    this.load().then(contents =>
-      (async () => {
-        const prompt = new Select({
-          type: 'select',
-          name: 'memo',
-          value: 'memoContent',
-          message: 'Choose a note you want to see:',
-          choices: contents,
-          result (names) {
-            return this.map(names)
-          }
-        })
-        prompt.run()
-          .then(answer => console.log(Object.values(answer).join()))
-      })()
-    )
+  constructor () {
+    this.view = new View()
+    this.deletion = new Deletion()
   }
 
-  show () {
-    this.load().then(contents => {
-      contents.forEach(content => {
-        console.log(content.name)
+  async readMessage (reader) {
+    return new Promise(resolve => {
+      const messages = []
+      reader.on('line', message => {
+        messages.push(message)
+        resolve(messages)
       })
     })
   }
 
-  async load () {
-    const sqlite3 = require('sqlite3').verbose()
-    const path = require('path')
-    const db = new sqlite3.Database(path.join(__dirname, '..', 'db', ':memo:'))
-
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT content FROM memos',
-        [],
-        (err, rows) => {
-          if (err) {
-            reject(err)
-          } else {
-            const contents = rows.map(row => {
-              return { name: row.content.split(/\r\n|\r|\n/)[0], value: row.content }
-            })
-            resolve(contents)
-          }
-        }
-      )
-    })
+  async select () {
+    if ('l' in argv) {
+      this.view.show()
+    } else if ('r' in argv) {
+      this.view.select()
+    } else if ('d' in argv) {
+      this.deletion.select()
+    } else {
+      const reader = require('readline').createInterface({
+        input: process.stdin
+      })
+      const lines = await this.readMessage(reader)
+      process.stdin.on('end', function () {
+        const addition = new Addition(lines.join('\n'))
+        addition.write()
+      })
+    }
   }
 }
 
-main()
-
-module.exports = Memo
+new Memo().select()

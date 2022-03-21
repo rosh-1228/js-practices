@@ -1,12 +1,12 @@
 const chai = require('chai')
 const assert = chai.assert
 const path = require('path')
-const Memo = require(path.join(__dirname, '..', 'lib', 'memo'))
-const Pencil = require(path.join(__dirname, '..', 'lib', 'pencil'))
+const View = require(path.join(__dirname, '..', 'lib', 'view'))
+const Addition = require(path.join(__dirname, '..', 'lib', 'addition'))
 
 const sqlite3 = require('sqlite3').verbose()
 const fs = require('fs')
-const Eraser = require('../lib/eraser')
+const Deletion = require('../lib/deletion')
 
 const testData = [
   { name: 'testData1', value: 'testData1' },
@@ -62,14 +62,14 @@ const db = new sqlite3.Database(path.join(__dirname, '..', 'db', ':memo:'), (err
 
 const loadMemo = () => {
   return new Promise(resolve => {
-    const memo = new Memo().load()
+    const memo = new View().load()
     resolve(memo)
   })
 }
 
 const writeMemo = (data) => {
   return new Promise(resolve => {
-    new Pencil(data).write()
+    new Addition(data).write()
     resolve()
   })
 }
@@ -98,7 +98,7 @@ describe('test memo app', () => {
 describe('test writed memo', () => {
   before(() => {
     return new Promise((resolve) => {
-      new Pencil('testPencilData').write()
+      new Addition('testPencilData').write()
       resolve()
     })
   })
@@ -112,7 +112,7 @@ describe('test writed memo', () => {
 describe('test deleted memo', () => {
   before(() => {
     return new Promise((resolve) => {
-      new Eraser().delete(1)
+      new Deletion().delete(1)
       resolve()
     })
   })
