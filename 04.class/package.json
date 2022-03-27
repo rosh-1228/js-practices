@@ -4,14 +4,17 @@
   "description": "",
   "main": "createDB.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/*.js",
+    "lint": "eslint **/*.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "enquirer": "^2.3.6",
-    "minimist": "^1.2.5"
+    "eslint": "^8.11.0",
+    "minimist": "^1.2.5",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "chai": "^4.3.6",
