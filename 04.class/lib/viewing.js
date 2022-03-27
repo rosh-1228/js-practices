@@ -1,9 +1,13 @@
 const { Select } = require('enquirer')
 
-class View {
-  select () {
+class Viewing {
+  constructor (db) {
+    this.db = db
+  }
+
+  question () {
     this.load().then(contents =>
-      (async () => {
+      (() => {
         const prompt = new Select({
           type: 'select',
           name: 'memo',
@@ -28,13 +32,9 @@ class View {
     })
   }
 
-  async load () {
-    const sqlite3 = require('sqlite3').verbose()
-    const path = require('path')
-    const db = new sqlite3.Database(path.join(__dirname, '..', 'db', ':memo:'))
-
+  load () {
     return new Promise((resolve, reject) => {
-      db.all(
+      this.db.all(
         'SELECT content FROM memos',
         [],
         (err, rows) => {
@@ -52,4 +52,4 @@ class View {
   }
 }
 
-module.exports = View
+module.exports = Viewing
