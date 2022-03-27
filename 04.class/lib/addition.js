@@ -1,19 +1,29 @@
 class Addition {
-  constructor (words) {
-    this.words = words
+  constructor (db) {
+    this.db = db
   }
 
-  write () {
-    const sqlite3 = require('sqlite3').verbose()
-    const path = require('path')
-    const db = new sqlite3.Database(path.join(__dirname, '..', 'db', ':memo:'))
+  async readMessage (reader) {
+    return new Promise(resolve => {
+      const messages = []
+      reader.on('line', message => {
+        messages.push(message)
+        resolve(messages)
+      })
+    })
+  }
 
-    db.serialize(() => {
-      const insertData = db.prepare('INSERT INTO memos(content) VALUES (?)')
-      insertData.run([this.words])
+  async write () {
+    const reader = require('readline').createInterface({
+      input: process.stdin
+    })
+    const words = await this.readMessage(reader)
+    this.db.serialize(() => {
+      const insertData = this.db.prepare('INSERT INTO memos(content) VALUES (?)')
+      insertData.run([words.join('\n')])
       insertData.finalize()
     })
-    db.close()
+    this.db.close()
   }
 }
 
