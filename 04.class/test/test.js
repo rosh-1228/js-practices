@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-/* eslint-env node, mocha */
-
 const assert = require('chai').assert
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose()

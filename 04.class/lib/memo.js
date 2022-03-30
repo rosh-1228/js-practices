@@ -15,7 +15,7 @@ class Memo {
     this.addition = new Addition(db)
   }
 
-  async execute () {
+  execute () {
     if ('l' in argv) {
       this.viewing.show()
     } else if ('r' in argv) {

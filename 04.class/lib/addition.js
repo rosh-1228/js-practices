@@ -3,7 +3,7 @@ class Addition {
     this.db = db
   }
 
-  async readMessage (reader) {
+  readMessage (reader) {
     return new Promise(resolve => {
       const messages = []
       reader.on('line', message => {
